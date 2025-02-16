@@ -65,4 +65,3 @@ On the Arduino side, `(x,y)` from a 640×480 coordinate system typically transla
   - `Pillow`,  
   - `tkinter`.
 
- ## Software & Files
