@@ -5,7 +5,7 @@ from PIL import Image, ImageTk
 import mouse_click
 import mouse_move
 import object_detect
-import serial_comm  # Modul for delt serial-forbindelse
+import serial_comm
 
 class RobotGUI:
     def __init__(self, root):
@@ -13,9 +13,8 @@ class RobotGUI:
         self.root.title("Robot Controller")
         self.root.geometry("1000x600")
 
-        # Shared state – inkluderer også musekoordinater
         self.shared_state = {
-            "selected_object": "Face",  # Endret standard til "Face"
+            "selected_object": "Face",
             "selected_color": "Blue",
             "mouse_x": 0,
             "mouse_y": 0
@@ -49,7 +48,7 @@ class RobotGUI:
                                             command=self.set_mode_object_detect)
         self.object_detect_btn.pack(fill="x", pady=5)
 
-        # Endret objektalternativene til å bruke "Face" i stedet for "Person"
+
         self.object_options = ["Face", "Ball", "Color Tracking"]
         self.selected_object = tk.StringVar(value=self.object_options[0])
 
@@ -70,17 +69,21 @@ class RobotGUI:
             print("Error: Could not open camera.")
             exit()
 
-        # Bind musehendelser til videovinduet
+
+        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
+        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
+
+
         self.video_label.bind("<Button-1>", self.on_video_click)
         self.video_label.bind("<Motion>", self.on_video_motion)
 
-        # Initialiser serial kommunikasjon (via serial_comm)
+
         serial_comm.init_serial()
 
         self.update_camera()
 
     def on_video_click(self, event):
-        # Oppdater shared_state med musekoordinater ved klikk
+
         self.shared_state["mouse_x"] = event.x
         self.shared_state["mouse_y"] = event.y
         if self.mode.get() == "mouse_click":
@@ -88,7 +91,7 @@ class RobotGUI:
             print(f"[INFO] Video clicked at X={event.x}, Y={event.y}")
 
     def on_video_motion(self, event):
-        # Oppdater shared_state med musekoordinater ved bevegelse
+
         self.shared_state["mouse_x"] = event.x
         self.shared_state["mouse_y"] = event.y
         if self.mode.get() == "mouse_move":
@@ -138,7 +141,9 @@ class RobotGUI:
     def update_camera(self):
         ret, frame = self.cap.read()
         if ret:
-            # Velg riktig logikkfunksjon basert på valgt modus
+
+            frame = cv2.resize(frame, (640, 480), interpolation=cv2.INTER_LINEAR)
+
             if self.mode.get() == "mouse_click":
                 frame = mouse_click.mouse_click_logic(frame, self.shared_state)
             elif self.mode.get() == "mouse_move":
@@ -146,7 +151,7 @@ class RobotGUI:
             elif self.mode.get() == "object_detect":
                 frame = object_detect.object_detect_logic(frame, self.shared_state)
 
-            # Konverter fra BGR (OpenCV) til RGB (Tkinter/PIL)
+
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             imgtk = ImageTk.PhotoImage(image=Image.fromarray(frame_rgb))
             self.video_label.config(image=imgtk)

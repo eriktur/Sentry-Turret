@@ -1,7 +1,7 @@
 import serial_comm
 
 def init_serial():
-    # Initialiserer serialforbindelsen via serial_comm (brukes av begge moduler)
+
     return serial_comm.init_serial()
 
 def on_label_move(event):
@@ -17,7 +17,7 @@ def on_label_move(event):
 
 def mouse_move_logic(frame, shared_state):
     import cv2
-    # Bruk musekoordinatene lagret i shared_state
+
     mx = shared_state.get('mouse_x', 0)
     my = shared_state.get('mouse_y', 0)
     cv2.circle(frame, (mx, my), 5, (0, 0, 255), -1)

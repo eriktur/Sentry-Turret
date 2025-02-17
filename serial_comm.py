@@ -1,6 +1,6 @@
 import serial
 
-SERIAL_PORT = "COM4"  # Bytt til riktig port for ditt system
+SERIAL_PORT = "/dev/tty.usbmodem48CA435C64342"
 BAUD_RATE = 9600
 
 ser = None

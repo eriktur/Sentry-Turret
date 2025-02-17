@@ -1,7 +1,7 @@
 import serial_comm
 
 def init_serial():
-    # Initialiserer serialforbindelsen (dette vil bli gjort bare én gang)
+
     return serial_comm.init_serial()
 
 def on_label_click(event):
