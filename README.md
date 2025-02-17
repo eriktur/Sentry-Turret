@@ -78,11 +78,11 @@ On the Arduino side, `(x,y)` from a 640×480 coordinate system typically transla
 ## Demos
 
  **Click to follow**
-![Demo Video](images/mouseClick.gif)
+[Demo Video](images/mouseClick.gif)
 
  **follow mouse**
-![Demo Video](images/mousefollow.gif)
+[Demo Video](images/mousefollow.gif)
 
  **Object Detection**
-![Demo Video](images/Objectdetection.gif)
+[Demo Video](images/Objectdetection.gif)
  
